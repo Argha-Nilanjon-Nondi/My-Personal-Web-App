@@ -1,4 +1,7 @@
-import lib
+from lib import Certificate,ChatRoom,Traceoute,Reminder
+from lib.utility import if_alreay_exist
+from lib.login import Login
+from lib.money import Money
 import os
 import random
 from validation import Validation
@@ -41,7 +44,7 @@ def login():
 		if(validated.checkValue(None,email,password) or validated.checkValue("",email,password)):
 			return redirect("/")
 		
-		obj=lib.Login(email,password)
+		obj=Login(email,password)
 		value=obj.check
 		if (value[0]==True):
 		  session.permanent = True
@@ -69,7 +72,7 @@ def money_databases():
 		if(session["status"]=="logged"):
 			if request.method == "POST":
 				collection = request.form["collection"]
-				obj=lib.Money(session["dbid"])
+				obj=Money(session["dbid"])
 				obj.add_table(collection)
 			return render_template("money/money_home.html")
 	else:
@@ -79,7 +82,7 @@ def money_databases():
 def money_databases_data():
 	if("status" in session):
 		if(session["status"]=="logged"):
-			obj=lib.Money(session["dbid"])
+			obj=Money(session["dbid"])
 			data=obj.show_databases_data()
 			data={"data":data}
 			return data
@@ -91,7 +94,7 @@ def money_single(table_name_id):
 	if("status" in session):
 		if(session["status"]=="logged"):
 			
-			obj=lib.Money(session["dbid"])
+			obj=Money(session["dbid"])
 			fetch_table_name=obj.get_table_name(table_name_id)
 			if request.method=="POST":
 				
@@ -115,8 +118,8 @@ def money_single(table_name_id):
 def money_delete_database(table_name_id):
 	if("status" in session):
 		if(session["status"]=="logged"):
-			obj=lib.Money(session["dbid"])
-			checl_validadion=lib.if_alreay_exist(dbid=session["dbid"],db_name="money",table_name="datas",columns=["id"],data_list=[(table_name_id,)])
+			obj=Money(session["dbid"])
+			checl_validadion=if_alreay_exist(dbid=session["dbid"],db_name="money",table_name="datas",columns=["id"],data_list=[(table_name_id,)])
 
 			if(checl_validadion==False):
 				return redirect("/logout/")
@@ -129,7 +132,7 @@ def money_delete_database(table_name_id):
 def money_single_data(table_name_id):
 	if("status" in session):
 		if(session["status"]=="logged"):
-			obj=lib.Money(session["dbid"])
+			obj=Money(session["dbid"])
 			data=obj.show_single_data(table_name_id)
 			data={"data":data}
 			return data
@@ -140,7 +143,7 @@ def money_single_data(table_name_id):
 def money_single_signature(table_name_id):
 	if("status" in session):
 		if(session["status"]=="logged"):
-			obj=lib.Money(session["dbid"])
+			obj=Money(session["dbid"])
 			data=obj.show_signature(table_name_id)
 			data={"data":data}
 			return data
@@ -151,7 +154,7 @@ def money_single_signature(table_name_id):
 def money_single_validation_data(table_name_id):
 	if("status" in session):
 		if(session["status"]=="logged"):
-			obj=lib.Money(session["dbid"])
+			obj=Money(session["dbid"])
 			data=obj.check_validation(table_name_id)
 			data={"data":data}
 			return data
@@ -165,7 +168,7 @@ def reminder():
 
 		if (session["status"] == "logged"):
 
-			obj = lib.Reminder(session["dbid"])
+			obj = Reminder(session["dbid"])
 
 			if request.method == "POST":
 
@@ -186,7 +189,7 @@ def reminder():
 def reminder_data():
 	if("status" in session):
 		if(session["status"]=="logged"):
-			obj=lib.Reminder(session["dbid"])
+			obj=Reminder(session["dbid"])
 			data=obj.show_data
 			data={"data":data}
 			return data
@@ -197,7 +200,7 @@ def reminder_data():
 def certificate_data():
 	if("status" in session):
 		if(session["status"]=="logged"):
-			obj=lib.Certificate(session["dbid"])
+			obj=Certificate(session["dbid"])
 			data=obj.show_data
 			data={"data":data}
 			return data
@@ -210,7 +213,7 @@ def reminder_delete(no):
 	no=no
 	if("status" in session):
 		if(session["status"]=="logged"):
-			obj=lib.Reminder(session["dbid"])
+			obj=Reminder(session["dbid"])
 			
 			if(validated.checkValue(None,no) or validated.checkValue("",no)):
 				return redirect("/")
@@ -238,7 +241,7 @@ def certificate():
 				users_dir=os.path.join(BASE_DIR,"static","users",session["dbid"],"certificate")
 				
 								
-				obj=lib.Certificate(session["dbid"])
+				obj=Certificate(session["dbid"])
 				
 				obj.input_data(random_file_name,url)			
 				
@@ -256,7 +259,7 @@ def certificate_delete(no):
 		if(session["status"]=="logged"):
 				if(validated.checkValue(None,no) or validated.checkValue("",no)):
 					return redirect("/")			
-		obj=lib.Certificate(session["dbid"])			
+		obj=Certificate(session["dbid"])
 		obj.delete(str(no))
 		return redirect("/certificate/")	
 	else:
@@ -286,7 +289,7 @@ def trace_data():
 			url=request.args.get("url");
 			if(validated.checkValue(None,url) or validated.checkValue("",url)):
 				return redirect("/")			
-			obj=lib.Traceoute(url)
+			obj=Traceoute(url)
 			return obj.find;
 	else:
 		return redirect("/")
@@ -304,7 +307,7 @@ def trace():
 def chatroom_data():
 	if("status" in session):
 		if(session["status"]=="logged"):
-			obj=lib.ChatRoom(own="",other="")
+			obj=ChatRoom(own="",other="")
 			data={"data":obj.show_list()}
 			return data
 	else:
@@ -335,7 +338,7 @@ def chat_talk(own,other):
 		return redirect("/")
 	if("status" in session):
 		if(session["status"]=="logged"):
-			obj=lib.ChatRoom(own,other)
+			obj=ChatRoom(own,other)
 			data={"data":obj.show_msg()}
 			return data
 	else:
@@ -347,7 +350,7 @@ def chat_enter(own,other,msg):
 		return redirect("/")
 	if("status" in session):
 		if(session["status"]=="logged"):
-			obj=lib.ChatRoom(own,other);
+			obj=ChatRoom(own,other);
 			obj.send_msg(msg);			
 			return "true";
 	else:
