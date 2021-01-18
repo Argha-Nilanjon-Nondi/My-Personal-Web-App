@@ -5,18 +5,38 @@ import builtwith
 from sqlite_easy import easy as sql
 from block_chain.block import Block
 
-#BASE_DIR = os.path.join(os.getcwd(), 'avunix_assistant_web')
 BASE_DIR ="""F:\\argha nondi\\codding\\avunix_assistant_web\\"""
-#print(BASE_DIR)
 users_dir = """F:\\argha nondi\\codding\\avunix_assistant_web\\users\\"""
-#print(users_dir)
 
 def user_single(dbid):
     return users_dir+"""{0}""".format(dbid)
 
-#print(user_single("00000"))
-# print(sql.sqlite_run("12355525355money",""" SELECT * from money_all """))
 
+def if_alreay_exist(dbid,db_name,table_name,columns,data_list):
+    user_dir_single = user_single(dbid)
+    os.chdir(user_dir_single)
+    #Add all column to column_collection start
+    column_collection=""
+    for i in columns:
+        column_collection+=(i+",")
+    column_collection=column_collection[0:-1]
+    ##Add all column to column_collection end
+
+    #Run a sql query and load all data start
+    code = """
+    		Select {0} from {1};
+    		""".format(column_collection,table_name)
+
+    record = sql.sqlite_run(db_name, code)
+    #Run a sql query and load all data end
+
+    #Check all data_list in record variable start
+    for j in data_list:
+        if(j not in record):
+            return False
+    # Check all data_list in record variable end
+    return True
+#print(if_alreay_exist(dbid="574511571705",db_name="money",table_name="datas",columns=["id","name"],data_list=[('547265204017', 'Full money')]))
 class Login:
     """
 	Used for user's login 
@@ -60,7 +80,7 @@ class CreatAccount:
         self.email = email
         self.name = name
         self.password = password
-        self.db = str(random.randrange(6887)) + str(random.randrange(6887)) + str(random.randrange(6887))
+        self.db = str(random.randrange(688987)) + str(random.randrange(6568887)) + str(random.randrange(647887))
 
     def create(self):
         code = """
@@ -129,8 +149,7 @@ class CreatAccount:
             return True
 
 
-# obj=CreatAccount("pcic095@gmail.com","avunix","9143")
-# print(obj.create())
+#
 
 
 class Reminder:

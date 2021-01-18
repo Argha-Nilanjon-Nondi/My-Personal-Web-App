@@ -116,6 +116,10 @@ def money_delete_database(table_name_id):
 	if("status" in session):
 		if(session["status"]=="logged"):
 			obj=lib.Money(session["dbid"])
+			checl_validadion=lib.if_alreay_exist(dbid=session["dbid"],db_name="money",table_name="datas",columns=["id"],data_list=[(table_name_id,)])
+
+			if(checl_validadion==False):
+				return redirect("/logout/")
 			obj.delete_table_name(table_name_id)
 			return redirect("/money/")
 	else:
