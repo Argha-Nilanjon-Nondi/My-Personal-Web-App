@@ -1,6 +1,7 @@
 import os
 from sqlite_easy import easy as sql
-from utility import BASE_DIR,users_dir,user_single,if_alreay_exist
+from utility import BASE_DIR
+
 
 class Login:
     """
@@ -37,5 +38,5 @@ class Login:
             return [False]
 
 
-obj=Login("pcic098u88009b5@gmail.com","avunix9143")
-print(obj.check)
+# obj=Login("pcic098u88009b5@gmail.com","avunix9143")
+# print(obj.check)

@@ -1,7 +1,10 @@
-from lib import Certificate,ChatRoom,Traceoute,Reminder
-from lib.utility import if_alreay_exist
+from utility import if_alreay_exist
 from lib.login import Login
 from lib.money import Money
+from lib.certificate import Certificate
+from lib.reminder import Reminder
+from lib.traceoute import Traceoute
+from  lib.chatroom import ChatRoom
 import os
 import random
 from validation import Validation
@@ -74,6 +77,7 @@ def money_databases():
 				collection = request.form["collection"]
 				obj=Money(session["dbid"])
 				obj.add_table(collection)
+				print("Created")
 			return render_template("money/money_home.html")
 	else:
 		return redirect("/")
