@@ -1,11 +1,12 @@
 import os
 from sqlite_easy import easy as sql
 
-BASE_DIR = """F:\\argha nondi\\codding\\avunix_assistant_web"""
-users_dir = """{0}\\users\\""".format(BASE_DIR)
+BASE_DIR = os.getcwd()
+
+users_dir =os.path.join(BASE_DIR,"users")
 
 def user_single(dbid):
-    return users_dir+"""{0}""".format(dbid)
+    return os.path.join(users_dir,dbid)
 
 
 def if_alreay_exist(dbid,db_name,table_name,columns,data_list):

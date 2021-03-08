@@ -17,13 +17,26 @@ app.debug=True
 app.secret_key="r9ruchrh0dh30rjro"
 app.permanent_session_lifetime = timedelta(minutes=3000)
 app.host="0.0.0.0"
-BASE_DIR ="""F:\\argha nondi\\codding\\avunix_assistant_web\\"""
+BASE_DIR =os.getcwd()
 validated=Validation()
 
 # obj=lib.Certificate("158624666524")
 # obj.input_data("hello.png","http//5869.889;png")
 # obj.delete(2)
 
+@app.route("/www/*yy")
+def test_only(*yy):
+	return "opopoi"
+
+@app.route("/static/users/<userdbid>/<folder>/<filename>")
+def protected_me(userdbid,folder,filename):
+	if("status" in session):
+		if(session["status"]=="logged"):
+			if(session["dbid"]==userdbid):
+				working_dir=os.path.join(BASE_DIR,"static","users",userdbid,folder)
+				return send_from_directory(working_dir,filename,as_attachment=True)
+
+	return "You are not allowed to view it"
 
 @app.route("/home/")
 def home():
